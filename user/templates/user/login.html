@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %} <!--引入当前link方法使用需要的库-->
+
+{% block title %}
+我的网站|登录
+{% endblock %}
+
+{# 点击凸显 #}
+{% block nav_home_active %}active{% endblock %}
+
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+                {% if not user.is_authenticated %}
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h3 class="panel-title">登录</h3>
+                      </div>
+                      <div class="panel-body">
+                          <form action="" method="POST"> <!--action一定要为空,这样才能将 request.get_full_path 方法的路径传导进去 -->
+                              {% csrf_token %} <!-- 保证其csrf验证通过 -->
+                              {% for field in login_form %}
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label> <!-- label标签 field.label为 用户名: 现将 : 去掉 -->
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                              {% endfor %}
+                              <span class="text-danger">{{ login_form.non_field_errors }}</span> <!--用户名错误出现位置-->
+                              <div class="clearfix"></div>
+                              <a href="{% url 'forgot_password' %}?from={{ request.get_full_path }}" class="pull-left">忘记密码</a>
+                            <input type="submit" value="登录" class="btn btn-primary pull-right">
+                          </form>
+                      </div>
+                    </div>
+                {% else %}
+                    <span>未登录, 跳转到首页...</span>
+                    <script type="text/javascript">window.location.href = '/';</script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

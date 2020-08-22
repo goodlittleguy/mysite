@@ -1,0 +1,16 @@
+{# 直接与分类面相似的list标签 #}
+{% extends 'blog/blog_list.html' %}
+
+{# 页面标题 #}
+{% block title%}
+{{ blog_type.type_name }}
+{% endblock %}
+
+{% block blog_list_title%}
+日期归档:{{ blogs_with_date }}
+<a href="{% url 'blog_list' %}">查看全部博客</a>
+{% endblock %}
+
+
+{# 这里直接继承content,其中必须让这两个中的context中各种要用的元素的键的名字相同 #}
+

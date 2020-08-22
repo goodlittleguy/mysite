@@ -1,0 +1,15 @@
+*{
+
+    margin:0; /*外边距设置为0*/
+    padding:0; /*内边距设置为0*/
+}
+body{
+    margin-top: 50px!important;
+}
+ul {
+    list-style-type: none!important;
+}
+
+ul.navbar-right {
+    margin-right: 0;
+}

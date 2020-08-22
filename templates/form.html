@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %} <!--引入当前link方法使用需要的库-->
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ form_title}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form action="" method="POST"> <!--action一定要为空,这样才能将 request.get_full_path 方法的路径传导进去 -->
+                                {% csrf_token %} <!-- 保证其csrf验证通过 -->
+                                {% for field in form %}
+                                    {% if not field.is_hidden %}
+                                        <label for="{{ field.id_for_label }}">{{ field.label }}</label> <!-- label标签 field.label为 用户名: 现将 : 去掉 -->
+                                    {% endif %}
+                                    {{ field }}
+                                    <p class="text-danger">{{ field.errors.as_text }}</p>
+                                {% endfor %}
+                                <span id="tip" class="pull-left text-danger">{{ login_form.non_field_errors }}</span> <!--用户名错误出现位置-->
+                                <div class="clearfix"></div>        <!-- 避免提示挤压按钮位置 -->
+                                <div class="pull-left">
+                                    {% block other_buttons %}{% endblock %}
+                                </div>
+                                <div class="pull-right">
+                                    <input type="submit" value="{{ submit_text }}" class="btn btn-primary">
+                                    <button class="btn btn-default"
+                                            onclick="window.location.href='{{ return_back_url }}'">返回</button>
+                                </div>
+                          </form>
+                      </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
